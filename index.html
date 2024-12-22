@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moon Phases Doodle</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #0d1f38; /* Dark blue background like the night sky */
+            font-family: sans-serif;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px; /* Space between moon phases */
+        }
+
+        .moon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #f5f3ce; /* Light yellow for the illuminated part of the moon */
+            box-shadow: 0 0 10px #f5f3ce; /* Soft glow effect */
+        }
+
+        /* New Moon */
+        #new {
+            background-color: #0d1f38; /* Same as background, effectively invisible */
+            box-shadow: none;
+        }
+
+        /* Waxing Crescent */
+        #waxing-crescent {
+            background-image: linear-gradient(to right, #0d1f38 50%, #f5f3ce 50%);
+        }
+
+        /* First Quarter */
+        #first-quarter {
+            background-image: linear-gradient(to right, #0d1f38 50%, #f5f3ce 50%);
+        }
+
+        /* Waxing Gibbous */
+        #waxing-gibbous {
+            background: radial-gradient(circle at 35%, #0d1f38 28%, #f5f3ce 25%);
+        }
+
+        /* Full Moon */
+        #full {
+            /* Default full moon styling (yellow with glow) */
+        }
+
+        /* Waning Gibbous */
+        #waning-gibbous {
+            background: radial-gradient(circle at 65%, #0d1f38 28%, #f5f3ce 25%);
+        }
+
+        /* Third Quarter */
+        #third-quarter {
+            background-image: linear-gradient(to left, #0d1f38 50%, #f5f3ce 50%);
+        }
+
+        /* Waning Crescent */
+        #waning-crescent {
+            background: radial-gradient(circle at 75%, #0d1f38 45%, #f5f3ce 48%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="moon" id="new"></div>
+        <div class="moon" id="waxing-crescent"></div>
+        <div class="moon" id="first-quarter"></div>
+        <div class="moon" id="waxing-gibbous"></div>
+        <div class="moon" id="full"></div>
+        <div class="moon" id="waning-gibbous"></div>
+        <div class="moon" id="third-quarter"></div>
+        <div class="moon" id="waning-crescent"></div>
+    </div>
+</body>
+</html>

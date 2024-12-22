@@ -10,7 +10,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #250342; /* Darker purple background */
+            background-color: #0d1f38; /* Original dark blue background */
             font-family: sans-serif;
             overflow: hidden;
         }
@@ -19,13 +19,14 @@
             width: 200px;
             height: 200px;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 60%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 60%); /* Shading from image */
             position: relative;
-            box-shadow: 0 0 20px #f5f3ce;
-            animation: moveShadow 29.53s linear infinite, glow 5s ease-in-out infinite alternate;
+            box-shadow: 0 0 20px #f5f3ce; /* Soft glow */
+            animation: glow 5s ease-in-out infinite alternate; /* Glow animation */
         }
 
         .moon::before {
+            /* Shadow for phase transition */
             content: '';
             position: absolute;
             top: 0;
@@ -33,42 +34,43 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.8) 70%);
-            animation: moveShadow 29.53s linear infinite;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 20%, #0d1f38 70%); /* Match background color */
+            animation: moveShadow 29.53s linear infinite; /* Phase animation */
         }
 
         @keyframes moveShadow {
             0% {
-                transform: translateX(-50%);
+                transform: translateX(-50%); /* Start on the left (full shadow) */
                 opacity: 1;
             }
             25% {
-                transform: translateX(0) scaleX(0.05); /* Almost hide the shadow for New Moon */
+                transform: translateX(0) scaleX(0.05); /* Almost hide the shadow (New Moon) */
                 opacity: 0.2;
             }
             50% {
-                transform: translateX(50%);
+                transform: translateX(50%); /* Move shadow to the right */
                 opacity: 1;
             }
             75% {
-                transform: translateX(0) scaleX(0.05); /* Almost hide the shadow again */
+                transform: translateX(0) scaleX(0.05); /* Almost hide the shadow (New Moon) */
                 opacity: 0.2;
             }
             100% {
-                transform: translateX(-50%);
+                transform: translateX(-50%); /* Move shadow back to the left */
                 opacity: 1;
             }
         }
 
         @keyframes glow {
             0% {
-                box-shadow: 0 0 15px #d679ff;
+                box-shadow: 0 0 15px #f5f3ce;
             }
             100% {
-                box-shadow: 0 0 25px 5px #d679ff;
+                box-shadow: 0 0 25px 5px #f5f3ce;
             }
         }
 
+        /* Twinkling Stars */
         .star {
             position: absolute;
             background-color: white;
@@ -82,18 +84,20 @@
         @keyframes glowStar {
             0% {
                 opacity: 0.2;
-                box-shadow: 0 0 2px #f5f3ce;
+                box-shadow: 0 0 2px #f5f3ce; /* Subtle glow */
             }
             100% {
                 opacity: 0.8;
-                box-shadow: 0 0 6px 2px #f5f3ce;
+                box-shadow: 0 0 6px 2px #f5f3ce; /* Stronger glow */
             }
         }
     </style>
 </head>
 <body>
     <div class="moon"></div>
+
     <script>
+        // JavaScript to create twinkling stars
         function createStars(number) {
             for (let i = 0; i < number; i++) {
                 const star = document.createElement('div');
@@ -104,7 +108,7 @@
             }
         }
 
-        createStars(50);
+        createStars(50); // Create 50 stars
     </script>
 </body>
 </html>

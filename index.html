@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moon Phase Animation</title>
+    <title>Smooth Moon Phase Animation</title>
     <style>
         body {
             display: flex;
@@ -29,38 +29,33 @@
             /* Shadow for phase transition */
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: -50%; /* Extend shadow beyond top */
+            left: -50%; /* Extend shadow beyond left */
+            width: 200%; /* Make shadow wider than the moon */
+            height: 200%; /* Make shadow taller than the moon */
             border-radius: 50%;
-            background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 20%, #0d1f38 70%); /* Match background color */
+            background-color: #0d1f38; /* Same as background */
             animation: moveShadow 29.53s linear infinite; /* Phase animation */
         }
 
         @keyframes moveShadow {
             0% {
-                transform: translateX(-50%); /* Start on the left (full shadow) */
-                opacity: 1;
+                transform: translateX(0); /* Start position (shadow on the left) */
             }
             25% {
-                transform: translateX(0) scaleX(0.05); /* Almost hide the shadow (New Moon) */
-                opacity: 0.2;
+                transform: translateX(75%); /* Move to cover most of the moon (waxing) */
             }
             50% {
-                transform: translateX(50%); /* Move shadow to the right */
-                opacity: 1;
+                transform: translateX(150%); /* Fully cover the moon (New Moon) */
             }
             75% {
-                transform: translateX(0) scaleX(0.05); /* Almost hide the shadow (New Moon) */
-                opacity: 0.2;
+                transform: translateX(75%); /* Move back to reveal (waning) */
             }
             100% {
-                transform: translateX(-50%); /* Move shadow back to the left */
-                opacity: 1;
+                transform: translateX(0); /* End position (shadow on the left) */
             }
         }
-
+        
         @keyframes glow {
             0% {
                 box-shadow: 0 0 15px #f5f3ce;

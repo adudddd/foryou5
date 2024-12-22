@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moon Phases Doodle</title>
+    <title>Moon Phase Animation</title>
     <style>
         body {
             display: flex;
@@ -12,82 +12,78 @@
             min-height: 100vh;
             background-color: #0d1f38;
             font-family: sans-serif;
-            overflow: hidden; /* Hide potential overflow from stars */
-        }
-
-        .container {
-            display: flex;
-            gap: 20px;
-            animation: rotateContainer 20s linear infinite; /* Gentle rotation to the whole container */
+            overflow: hidden;
         }
 
         .moon {
-            width: 80px;
-            height: 80px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             background-color: #f5f3ce;
-            box-shadow: 0 0 10px #f5f3ce;
-            transition: transform 0.5s ease; /* Smooth scaling on hover */
+            box-shadow: 0 0 20px #f5f3ce;
+            animation: moonPhase 29.53s linear infinite; /* Approximate lunar cycle duration */
         }
 
-        .moon:hover {
-            transform: scale(1.1); /* Slightly increase size on hover */
-        }
-
-        /* Moon phase styles (same as before) */
-        #new {
-            background-color: #0d1f38;
-            box-shadow: none;
-        }
-
-        #waxing-crescent {
-            background-image: linear-gradient(to right, #0d1f38 50%, #f5f3ce 50%);
-        }
-
-        #first-quarter {
-            background-image: linear-gradient(to right, #0d1f38 50%, #f5f3ce 50%);
-        }
-
-        #waxing-gibbous {
-            background: radial-gradient(circle at 35%, #0d1f38 28%, #f5f3ce 25%);
-        }
-
-        #full {
-            animation: pulse 2s infinite; /* Subtle pulse animation for full moon */
-        }
-
-        #waning-gibbous {
-            background: radial-gradient(circle at 65%, #0d1f38 28%, #f5f3ce 25%);
-        }
-
-        #third-quarter {
-            background-image: linear-gradient(to left, #0d1f38 50%, #f5f3ce 50%);
-        }
-
-        #waning-crescent {
-            background: radial-gradient(circle at 75%, #0d1f38 45%, #f5f3ce 48%);
-        }
-
-        /* Animation Keyframes */
-        @keyframes rotateContainer {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes pulse {
+        @keyframes moonPhase {
             0% {
-                box-shadow: 0 0 10px #f5f3ce;
-            }
-            50% {
+                background: #f5f3ce; /* Full Moon */
                 box-shadow: 0 0 20px #f5f3ce;
             }
+            6.25% {
+                background: radial-gradient(circle at 65%, #0d1f38 28%, #f5f3ce 25%); /* Waning Gibbous */
+            }
+            12.5% {
+                background-image: linear-gradient(to left, #0d1f38 50%, #f5f3ce 50%); /* Third Quarter */
+            }
+            18.75% {
+                background: radial-gradient(circle at 75%, #0d1f38 45%, #f5f3ce 48%); /* Waning Crescent */
+            }
+            25% {
+                background-color: #0d1f38; /* New Moon */
+                box-shadow: none;
+            }
+            31.25% {
+                background-image: linear-gradient(to right, #0d1f38 50%, #f5f3ce 50%); /* Waxing Crescent */
+            }
+            37.5% {
+                background-image: linear-gradient(to right, #0d1f38 50%, #f5f3ce 50%); /* First Quarter */
+            }
+            43.75% {
+                 background: radial-gradient(circle at 35%, #0d1f38 28%, #f5f3ce 25%); /* Waxing Gibbous */
+            }
+            50% {
+                background: #f5f3ce; /* Full Moon */
+                box-shadow: 0 0 20px #f5f3ce;
+            }
+            56.25% {
+                background: radial-gradient(circle at 65%, #0d1f38 28%, #f5f3ce 25%); /* Waning Gibbous */
+            }
+            62.5% {
+                background-image: linear-gradient(to left, #0d1f38 50%, #f5f3ce 50%); /* Third Quarter */
+            }
+            68.75% {
+                background: radial-gradient(circle at 75%, #0d1f38 45%, #f5f3ce 48%); /* Waning Crescent */
+            }
+            75% {
+                background-color: #0d1f38; /* New Moon */
+                box-shadow: none;
+            }
+            81.25% {
+                background-image: linear-gradient(to right, #0d1f38 50%, #f5f3ce 50%); /* Waxing Crescent */
+            }
+            87.5% {
+                background-image: linear-gradient(to right, #0d1f38 50%, #f5f3ce 50%); /* First Quarter */
+            }
+            93.75% {
+                 background: radial-gradient(circle at 35%, #0d1f38 28%, #f5f3ce 25%); /* Waxing Gibbous */
+            }
             100% {
-                box-shadow: 0 0 10px #f5f3ce;
+                background: #f5f3ce; /* Full Moon */
+                box-shadow: 0 0 20px #f5f3ce;
             }
         }
 
-        /* Twinkling Stars */
+        /* Optional: Twinkling Stars */
         .star {
             position: absolute;
             background-color: white;
@@ -108,18 +104,9 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="moon" id="new"></div>
-        <div class="moon" id="waxing-crescent"></div>
-        <div class="moon" id="first-quarter"></div>
-        <div class="moon" id="waxing-gibbous"></div>
-        <div class="moon" id="full"></div>
-        <div class="moon" id="waning-gibbous"></div>
-        <div class="moon" id="third-quarter"></div>
-        <div class="moon" id="waning-crescent"></div>
-    </div>
+    <div class="moon"></div>
     <script>
-        // JavaScript to create random stars
+        // JavaScript for twinkling stars (same as before)
         function createStars(number) {
             for (let i = 0; i < number; i++) {
                 const star = document.createElement('div');
@@ -129,7 +116,7 @@
                 document.body.appendChild(star);
             }
         }
-        createStars(50); // Create 50 stars
+        createStars(50);
     </script>
 </body>
 </html>

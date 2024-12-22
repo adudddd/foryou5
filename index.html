@@ -1,17 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smooth Moon Phase Animation</title>
+    <title>Moon Phase Animation</title>
     <style>
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #0d1f38;
+            background-color: #250342; /* Darker purple background */
             font-family: sans-serif;
             overflow: hidden;
         }
@@ -20,9 +19,10 @@
             width: 200px;
             height: 200px;
             border-radius: 50%;
-            background-color: #f5f3ce;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 60%);
             position: relative;
-            animation: glow 5s ease-in-out infinite alternate;
+            box-shadow: 0 0 20px #f5f3ce;
+            animation: moveShadow 29.53s linear infinite, glow 5s ease-in-out infinite alternate;
         }
 
         .moon::before {
@@ -33,23 +33,8 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.6) 10%, transparent 70%);
+            background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.8) 70%);
             animation: moveShadow 29.53s linear infinite;
-        }
-
-        .moon::after {
-            /* Craters */
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, transparent 5px, rgba(0, 0, 0, 0.3) 5px, transparent 6px),
-                        radial-gradient(circle at 65% 60%, transparent 8px, rgba(0, 0, 0, 0.2) 8px, transparent 9px),
-                        radial-gradient(circle at 20% 75%, transparent 3px, rgba(0, 0, 0, 0.4) 3px, transparent 4px);
-            pointer-events: none; /* Makes craters non-interactive */
         }
 
         @keyframes moveShadow {
@@ -58,7 +43,7 @@
                 opacity: 1;
             }
             25% {
-                transform: translateX(0) scaleX(0.02); /* Almost hide the shadow for New Moon */
+                transform: translateX(0) scaleX(0.05); /* Almost hide the shadow for New Moon */
                 opacity: 0.2;
             }
             50% {
@@ -66,7 +51,7 @@
                 opacity: 1;
             }
             75% {
-                transform: translateX(0) scaleX(0.02); /* Almost hide the shadow again */
+                transform: translateX(0) scaleX(0.05); /* Almost hide the shadow again */
                 opacity: 0.2;
             }
             100% {
@@ -77,72 +62,49 @@
 
         @keyframes glow {
             0% {
-                box-shadow: 0 0 15px #f5f3ce;
+                box-shadow: 0 0 15px #d679ff;
             }
             100% {
-                box-shadow: 0 0 25px 5px #f5f3ce;
+                box-shadow: 0 0 25px 5px #d679ff;
             }
         }
 
-        /* Shooting Stars */
-        .shooting-star {
+        .star {
             position: absolute;
-            width: 70px;
-            height: 1px;
-            background: linear-gradient(to left, rgba(255, 255, 255, 0), #f5f3ce);
-            animation: shoot 5s linear infinite;
-            animation-delay: 10s;
+            background-color: white;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            animation: glowStar 5s ease-in-out infinite alternate;
             opacity: 0;
         }
 
-        @keyframes shoot {
+        @keyframes glowStar {
             0% {
-                top: 0;
-                right: 0;
-                opacity: 0;
-                transform: translateX(0) rotate(-45deg);
-            }
-            5% {
-                top: 5%;
-                right: 5%;
-                opacity: 1;
-            }
-            10% {
-                top: 10%;
-                right: 10%;
-                opacity: 0;
-                transform: translateX(-70px) rotate(-45deg);
+                opacity: 0.2;
+                box-shadow: 0 0 2px #f5f3ce;
             }
             100% {
-                opacity: 0;
+                opacity: 0.8;
+                box-shadow: 0 0 6px 2px #f5f3ce;
             }
         }
     </style>
 </head>
 <body>
     <div class="moon"></div>
-
     <script>
-        // Shooting Stars (same as before)
-        function createShootingStar() {
-            const star = document.createElement('div');
-            star.classList.add('shooting-star');
-            document.body.appendChild(star);
-
-            const randTop = Math.random() * 25;
-            const randRight = Math.random() * 50;
-            const randDuration = Math.random() * 2 + 2;
-
-            star.style.top = `${randTop}vh`;
-            star.style.right = `${randRight}vw`;
-            star.style.animationDuration = `${randDuration}s`;
-
-            star.addEventListener('animationend', () => {
-                star.remove();
-            });
+        function createStars(number) {
+            for (let i = 0; i < number; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.top = `${Math.random() * 100}vh`;
+                star.style.left = `${Math.random() * 100}vw`;
+                document.body.appendChild(star);
+            }
         }
 
-        setInterval(createShootingStar, Math.random() * 10000 + 10000);
+        createStars(50);
     </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moon Phase Animation</title>
+    <title>3D Rotating Moon</title>
     <style>
         body {
             display: flex;
@@ -19,86 +19,70 @@
             width: 200px;
             height: 200px;
             border-radius: 50%;
-            background-color: #f5f3ce;
-            box-shadow: 0 0 20px #f5f3ce;
-            animation: moonPhase 29.53s linear infinite; /* Approximate lunar cycle duration */
+            background: linear-gradient(to right, #777, #f5f3ce 50%, #777); /* Initial gradient for 3D effect */
+            animation: rotateMoon 29.53s linear infinite, glow 5s ease-in-out infinite alternate;
+            transform-style: preserve-3d; /* Important for 3D perspective */
         }
 
-        @keyframes moonPhase {
+        .moon::before {
+            /* Pseudo-element for the back side of the moon */
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(to left, #777, #f5f3ce 50%, #777);
+            transform: translateZ(-1px); /* Push the back side slightly behind */
+        }
+
+        @keyframes rotateMoon {
             0% {
-                background: #f5f3ce; /* Full Moon */
-                box-shadow: 0 0 20px #f5f3ce;
-            }
-            6.25% {
-                background: radial-gradient(circle at 65%, #0d1f38 28%, #f5f3ce 25%); /* Waning Gibbous */
-            }
-            12.5% {
-                background-image: linear-gradient(to left, #0d1f38 50%, #f5f3ce 50%); /* Third Quarter */
-            }
-            18.75% {
-                background: radial-gradient(circle at 75%, #0d1f38 45%, #f5f3ce 48%); /* Waning Crescent */
-            }
-            25% {
-                background-color: #0d1f38; /* New Moon */
-                box-shadow: none;
-            }
-            31.25% {
-                background-image: linear-gradient(to right, #0d1f38 50%, #f5f3ce 50%); /* Waxing Crescent */
-            }
-            37.5% {
-                background-image: linear-gradient(to right, #0d1f38 50%, #f5f3ce 50%); /* First Quarter */
-            }
-            43.75% {
-                 background: radial-gradient(circle at 35%, #0d1f38 28%, #f5f3ce 25%); /* Waxing Gibbous */
-            }
-            50% {
-                background: #f5f3ce; /* Full Moon */
-                box-shadow: 0 0 20px #f5f3ce;
-            }
-            56.25% {
-                background: radial-gradient(circle at 65%, #0d1f38 28%, #f5f3ce 25%); /* Waning Gibbous */
-            }
-            62.5% {
-                background-image: linear-gradient(to left, #0d1f38 50%, #f5f3ce 50%); /* Third Quarter */
-            }
-            68.75% {
-                background: radial-gradient(circle at 75%, #0d1f38 45%, #f5f3ce 48%); /* Waning Crescent */
-            }
-            75% {
-                background-color: #0d1f38; /* New Moon */
-                box-shadow: none;
-            }
-            81.25% {
-                background-image: linear-gradient(to right, #0d1f38 50%, #f5f3ce 50%); /* Waxing Crescent */
-            }
-            87.5% {
-                background-image: linear-gradient(to right, #0d1f38 50%, #f5f3ce 50%); /* First Quarter */
-            }
-            93.75% {
-                 background: radial-gradient(circle at 35%, #0d1f38 28%, #f5f3ce 25%); /* Waxing Gibbous */
+                transform: rotateY(0deg);
             }
             100% {
-                background: #f5f3ce; /* Full Moon */
+                transform: rotateY(360deg);
+            }
+        }
+
+        @keyframes glow {
+            0% {
                 box-shadow: 0 0 20px #f5f3ce;
             }
-        }
-
-        /* Optional: Twinkling Stars */
-        .star {
-            position: absolute;
-            background-color: white;
-            width: 2px;
-            height: 2px;
-            border-radius: 50%;
-            animation: twinkle 3s linear infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% {
-                opacity: 0;
+            100% {
+                box-shadow: 0 0 30px 5px #f5f3ce;
             }
-            50% {
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(to left, rgba(255, 255, 255, 0), white);
+            animation: shoot 5s linear infinite;
+            animation-delay: 10s; /* Initial delay */
+            opacity: 0; /* Start hidden */
+        }
+
+        @keyframes shoot {
+            0% {
+                top: 0;
+                right: 0;
+                opacity: 0;
+                transform: translateX(0) rotate(-45deg);
+            }
+            5% {
+                top: 5%;
+                right: 5%;
                 opacity: 1;
+            }
+            10% {
+                top: 10%;
+                right: 10%;
+                opacity: 0;
+                transform: translateX(-100px) rotate(-45deg);
+            }
+            100% {
+                opacity: 0;
             }
         }
     </style>
@@ -106,17 +90,29 @@
 <body>
     <div class="moon"></div>
     <script>
-        // JavaScript for twinkling stars (same as before)
-        function createStars(number) {
-            for (let i = 0; i < number; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                star.style.top = `${Math.random() * 100}vh`;
-                star.style.left = `${Math.random() * 100}vw`;
-                document.body.appendChild(star);
-            }
+        // Function to create shooting stars randomly and rarely
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.classList.add('shooting-star');
+            document.body.appendChild(star);
+
+            // Randomize position, size, and animation duration
+            const randTop = Math.random() * 25; // Top 25% of the screen
+            const randRight = Math.random() * 50; // Right 50% of the screen
+            const randDuration = Math.random() * 3 + 2; // 2 to 5 seconds
+
+            star.style.top = `${randTop}vh`;
+            star.style.right = `${randRight}vw`;
+            star.style.animationDuration = `${randDuration}s`;
+
+            // Remove the star after the animation
+            star.addEventListener('animationend', () => {
+                star.remove();
+            });
         }
-        createStars(50);
+
+        // Create a shooting star every 10-20 seconds
+        setInterval(createShootingStar, Math.random() * 10000 + 10000);
     </script>
 </body>
 </html>

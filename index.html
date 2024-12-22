@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smooth Moon Phase Animation</title>
+    <title>Moon Phase Animation for My Love</title>
     <style>
         body {
             display: flex;
@@ -11,57 +11,107 @@
             align-items: center;
             min-height: 100vh;
             background-color: #0d1f38; /* Original dark blue background */
-            font-family: sans-serif;
+            font-family: 'Arial', sans-serif;
             overflow: hidden;
         }
 
-        .moon {
+        .moon-container {
+            position: relative;
             width: 200px;
             height: 200px;
+            animation: subtleFloat 5s ease-in-out infinite alternate;
+        }
+
+        .moon {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 60%); /* Shading from image */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 60%);
             position: relative;
-            box-shadow: 0 0 20px #f5f3ce; /* Soft glow */
-            animation: glow 5s ease-in-out infinite alternate; /* Glow animation */
+            box-shadow: 0 0 20px #f5f3ce;
+            animation: glow 5s ease-in-out infinite alternate;
         }
 
         .moon::before {
             /* Shadow for phase transition */
             content: '';
             position: absolute;
-            top: -50%; /* Extend shadow beyond top */
-            left: -50%; /* Extend shadow beyond left */
-            width: 200%; /* Make shadow wider than the moon */
-            height: 200%; /* Make shadow taller than the moon */
-            border-radius: 50%;
-            background-color: #0d1f38; /* Same as background */
-            animation: moveShadow 29.53s linear infinite; /* Phase animation */
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            border-radius: 45%;
+            background-color: #0d1f38;
+            animation: moveShadow 29.53s linear infinite;
         }
 
         @keyframes moveShadow {
             0% {
-                transform: translateX(0); /* Start position (shadow on the left) */
+                transform: translateX(0);
             }
             25% {
-                transform: translateX(75%); /* Move to cover most of the moon (waxing) */
+                transform: translateX(75%);
             }
             50% {
-                transform: translateX(150%); /* Fully cover the moon (New Moon) */
+                transform: translateX(150%);
             }
             75% {
-                transform: translateX(75%); /* Move back to reveal (waning) */
+                transform: translateX(75%);
             }
             100% {
-                transform: translateX(0); /* End position (shadow on the left) */
+                transform: translateX(0);
             }
         }
-        
+
         @keyframes glow {
             0% {
-                box-shadow: 0 0 15px #f5f3ce;
+                box-shadow: 0 0 15px #f5f3ce, 0 0 5px #f5f3ce inset;
             }
             100% {
-                box-shadow: 0 0 25px 5px #f5f3ce;
+                box-shadow: 0 0 25px 5px #f5f3ce, 0 0 10px #f5f3ce inset;
+            }
+        }
+
+        @keyframes subtleFloat {
+            0% {
+                transform: translateY(-5px);
+            }
+            100% {
+                transform: translateY(5px);
+            }
+        }
+
+        /* Shooting Stars */
+        .shooting-star {
+            position: absolute;
+            width: 70px;
+            height: 1px;
+            background: linear-gradient(to left, rgba(255, 255, 255, 0), #f5f3ce);
+            animation: shoot 5s linear infinite;
+            animation-delay: 10s;
+            opacity: 0;
+        }
+
+        @keyframes shoot {
+            0% {
+                top: 0;
+                right: 0;
+                opacity: 0;
+                transform: translateX(0) rotate(-45deg);
+            }
+            5% {
+                top: 5%;
+                right: 5%;
+                opacity: 1;
+            }
+            10% {
+                top: 10%;
+                right: 10%;
+                opacity: 0;
+                transform: translateX(-70px) rotate(-45deg);
+            }
+            100% {
+                opacity: 0;
             }
         }
 
@@ -78,20 +128,71 @@
 
         @keyframes glowStar {
             0% {
-                opacity: 0.2;
-                box-shadow: 0 0 2px #f5f3ce; /* Subtle glow */
+                opacity: 0.4;
+                box-shadow: 0 0 2px #f5f3ce;
             }
             100% {
-                opacity: 0.8;
-                box-shadow: 0 0 6px 2px #f5f3ce; /* Stronger glow */
+                opacity: 0.9;
+                box-shadow: 0 0 6px 2px #f5f3ce;
             }
         }
+        .message-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
+            animation-delay: 2s; 
+            z-index: -1; 
+        }
+        .hidden-message {
+            font-family: 'Arial', sans-serif; 
+            font-size: 25px;
+            font-weight: 700;
+            color: #f5f3ce;
+            text-shadow: 0 0 10px #f5f3ce; 
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
     </style>
 </head>
 <body>
-    <div class="moon"></div>
+    <div class="moon-container">
+        <div class="moon"></div>
+    </div>
 
     <script>
+        // Shooting Stars (same as before)
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.classList.add('shooting-star');
+            document.body.appendChild(star);
+
+            const randTop = Math.random() * 25;
+            const randRight = Math.random() * 50;
+            const randDuration = Math.random() * 2 + 2;
+
+            star.style.top = `${randTop}vh`;
+            star.style.right = `${randRight}vw`;
+            star.style.animationDuration = `${randDuration}s`;
+
+            star.addEventListener('animationend', () => {
+                star.remove();
+            });
+        }
+
+        setInterval(createShootingStar, Math.random() * 10000 + 10000);
+
         // JavaScript to create twinkling stars
         function createStars(number) {
             for (let i = 0; i < number; i++) {
@@ -104,6 +205,19 @@
         }
 
         createStars(50); // Create 50 stars
+        setTimeout(() => {
+        const moonContainer = document.querySelector('.moon-container');
+
+        const messageContainer = document.createElement('div');
+        messageContainer.classList.add('message-container');
+
+        const message = document.createElement('p');
+        message.classList.add('hidden-message');
+        message.textContent = 'For my love';
+        messageContainer.appendChild(message);
+
+        moonContainer.insertAdjacentElement('afterend', messageContainer);
+        }, 1000);
     </script>
 </body>
 </html>
